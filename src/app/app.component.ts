@@ -1,20 +1,17 @@
-import {Component, inject, signal} from '@angular/core';
-import {ProfileService} from './data/services/profile.service';
-import {ProfileCardComponent} from './common-ui/profile-card/profile-card.component';
+import {Component, signal} from '@angular/core';
+import {
+  ProfileCardComponent
+} from './common-ui/profile-card/profile-card.component';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [ProfileCardComponent],
+  imports: [ProfileCardComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   protected readonly title = signal('tik-talk');
 
-  profileService = inject(ProfileService)
-  profiles: any = [];
 
-  constructor() {
-    this.profileService.getTestAccounts().subscribe(val => this.profiles = val);
-  }
 }
