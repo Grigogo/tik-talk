@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -19,6 +19,8 @@ export class LoginPageComponent {
   authService = inject(AuthService);
   router = inject(Router);
   cookieService = inject(CookieService);
+
+  isPasswordVisible = signal<boolean>(false);
 
   form = new FormGroup({
     username: new FormControl<string | null>(null, Validators.required),

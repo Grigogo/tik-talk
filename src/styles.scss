@@ -6,6 +6,7 @@
   --light-color: #FFFFFF;
   --primary-color: #AE7AFF;
   --grey-color: #5F646D;
+  --dark-hover-color: #161616;
 }
 
 *,
@@ -107,4 +108,14 @@ body {
   font-weight: 400;
   color: var(--light-color);
   font-family: "JetBrains Mono", monospace;
+
+  &:-webkit-autofill {
+    background: var(--dark-color);
+    color: var(--light-color);
+  }
+
+  &:focus {
+    background: var(--dark-color);
+    color: var(--light-color);
+  }
 }
