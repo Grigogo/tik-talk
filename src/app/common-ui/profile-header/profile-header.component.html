@@ -1,0 +1,12 @@
+@if (profile(); as profile) {
+  @if (profile.avatarUrl) {
+    <img class="profile-header__img" [src]="profile.avatarUrl | imageUrl" [alt]="profile.id">
+  } @else {
+    <img class="sidebar__footer-img" src="/assets/images/avatar_placeholder.png" alt="avatar">
+  }
+
+  <div class="username-and-name">
+    <h1 class="h4 mb4">{{ profile.firstName }} {{ profile.lastName }}</h1>
+    <span class="regular">{{ profile.username }}</span>
+  </div>
+}

@@ -4,6 +4,7 @@
 :root {
   --dark-color: #000000;
   --light-color: #FFFFFF;
+  --light-transparent-color: rgba(255, 255, 255, 0.75);
   --primary-color: #AE7AFF;
   --grey-color: #5F646D;
   --dark-hover-color: #161616;
@@ -48,6 +49,9 @@ body {
   line-height: 24px;
   cursor: pointer;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-shadow {
@@ -77,6 +81,13 @@ body {
   font-size: 48px;
   line-height: 56px;
   font-weight: 800;
+}
+
+.h4 {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 32px;
 }
 
 .h6 {
@@ -134,4 +145,39 @@ body {
     background: var(--dark-color);
     color: var(--light-color);
   }
+}
+
+.tt-form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tt-form-label__text {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--light-transparent-color)
+}
+
+.tt-form-input {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  background: none;
+  color: var(--light-color);
+  border: none;
+  border-bottom: 1px solid var(--light-color);
+  height: 33px;
+
+  &:focus-visible {
+    outline: 1px solid var(--primary-color);
+  }
+}
+
+.tt-textarea {
+  height: 84px;
+  resize: none;
 }
