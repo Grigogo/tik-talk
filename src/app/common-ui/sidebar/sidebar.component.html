@@ -4,10 +4,10 @@
     <!--    <li *ngFor="let menuItem of menuItems"> //версия 16 ангулара-->
     <li>
       @for (menuItem of menuItems; track menuItem.link) {
-        <button class="menu-item">
+        <a class="menu-item" [routerLink]="[menuItem.link]">
           <svg [icon]="menuItem.icon"></svg>
           <span>{{ menuItem.label }}</span>
-        </button>
+        </a>
       }
     </li>
   </ul>
