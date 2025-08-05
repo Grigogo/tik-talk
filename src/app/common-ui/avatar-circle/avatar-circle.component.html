@@ -1,0 +1,7 @@
+@if (avatarUrl(); as url) {
+  @if (url) {
+    <img class="avatar-circle__img" [src]="url | imageUrl" [alt]="url">
+  } @else {
+    <img class="avatar-circle__img" src="/assets/images/avatar_placeholder.png" alt="avatar">
+  }
+}
