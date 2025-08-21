@@ -9,6 +9,7 @@ import {PostInputComponent} from '../post-input/post-input.component';
 import {CommentComponent} from './comment/comment.component';
 import {PostService} from '../../../data/services/post.service';
 import {firstValueFrom} from 'rxjs';
+import {DateFormatPipe} from '../../../helpers/pipes/date-format.pipe';
 
 @Component({
   selector: 'app-post',
@@ -17,7 +18,8 @@ import {firstValueFrom} from 'rxjs';
     DatePipe,
     SvgIconComponent,
     PostInputComponent,
-    CommentComponent
+    CommentComponent,
+    DateFormatPipe
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss'
@@ -31,6 +33,7 @@ export class PostComponent implements OnInit {
 
   async ngOnInit() {
     this.comments.set(this.post()!.comments)
+
   }
 
   async onCreated() {

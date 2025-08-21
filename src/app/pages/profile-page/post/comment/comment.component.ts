@@ -4,12 +4,14 @@ import {
   AvatarCircleComponent
 } from '../../../../common-ui/avatar-circle/avatar-circle.component';
 import {DatePipe} from '@angular/common';
+import {DateFormatPipe} from '../../../../helpers/pipes/date-format.pipe';
 
 @Component({
   selector: 'app-comment',
   imports: [
     AvatarCircleComponent,
-    DatePipe
+    DatePipe,
+    DateFormatPipe
   ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.scss'
