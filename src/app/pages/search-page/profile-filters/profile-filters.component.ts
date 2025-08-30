@@ -1,28 +1,23 @@
-import {Component, inject, OnDestroy} from '@angular/core';
-import {AvatarUploadComponent} from "../../settings-page/avatar-upload/avatar-upload.component";
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
-import {ProfileService} from '../../../data/services/profile.service';
-import {debounceTime, startWith, Subscription, switchMap} from 'rxjs';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import { Component, inject, OnDestroy } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ProfileService } from '../../../data/services/profile.service';
+import { debounceTime, startWith, Subscription, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-profile-filters',
-    imports: [
-        AvatarUploadComponent,
-        ReactiveFormsModule
-    ],
+  imports: [ReactiveFormsModule],
   templateUrl: './profile-filters.component.html',
-  styleUrl: './profile-filters.component.scss'
+  styleUrl: './profile-filters.component.scss',
 })
 export class ProfileFiltersComponent implements OnDestroy {
-    fb = inject(FormBuilder);
-    profileService = inject(ProfileService);
+  fb = inject(FormBuilder);
+  profileService = inject(ProfileService);
 
-    searchForm = this.fb.group({
-      firstName: [''],
-      lastName: [''],
-      stack: [''],
-    })
+  searchForm = this.fb.group({
+    firstName: [''],
+    lastName: [''],
+    stack: [''],
+  });
 
   searchFormSub!: Subscription;
 
@@ -31,12 +26,12 @@ export class ProfileFiltersComponent implements OnDestroy {
       .pipe(
         startWith({}),
         debounceTime(300),
-        switchMap(formValue => {
+        switchMap((formValue) => {
           return this.profileService.filterProfiles(formValue);
         }),
         // takeUntilDestroyed() с 17 версии
       )
-      .subscribe()
+      .subscribe();
   }
 
   ngOnDestroy() {
