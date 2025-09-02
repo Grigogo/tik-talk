@@ -8,7 +8,7 @@ import { AsyncPipe } from '@angular/common';
 import { SvgIconComponent } from '../../common-ui/svg-icon/svg-icon.component';
 import { ImageUrlPipe } from '../../helpers/pipes/image-url.pipe';
 import { PostFeedComponent } from './post-feed/post-feed.component';
-import { ChatsService } from '../../data/services/chats.sevice';
+import { ChatsService } from '../../data/services/chats.service';
 
 @Component({
   selector: 'app-profile-page',

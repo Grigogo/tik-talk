@@ -5,6 +5,7 @@ export interface IChat {
   userFirst: IProfile;
   userSecond: IProfile;
   messages: IMessage[];
+  companion?: IProfile
 }
 
 export interface IMessage {
@@ -15,4 +16,10 @@ export interface IMessage {
   createdAt: string;
   isRead: boolean;
   updatedAt: string;
+}
+
+export interface ILastMessageResponse {
+  id: number;
+  userFrom: IProfile;
+  message: string;
 }
