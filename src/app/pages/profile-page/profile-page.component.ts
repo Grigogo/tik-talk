@@ -1,15 +1,14 @@
-import {Component, inject} from '@angular/core';
-import {
-  ProfileHeaderComponent
-} from '../../common-ui/profile-header/profile-header.component';
-import {ProfileService} from '../../data/services/profile.service';
-import {ActivatedRoute, RouterLink} from '@angular/router';
-import {switchMap} from 'rxjs';
-import {toObservable} from '@angular/core/rxjs-interop';
-import {AsyncPipe} from '@angular/common';
-import {SvgIconComponent} from '../../common-ui/svg-icon/svg-icon.component';
-import {ImageUrlPipe} from '../../helpers/pipes/image-url.pipe';
-import {PostFeedComponent} from './post-feed/post-feed.component';
+import { Component, inject, signal } from '@angular/core';
+import { ProfileHeaderComponent } from '../../common-ui/profile-header/profile-header.component';
+import { ProfileService } from '../../data/services/profile.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { firstValueFrom, switchMap } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { AsyncPipe } from '@angular/common';
+import { SvgIconComponent } from '../../common-ui/svg-icon/svg-icon.component';
+import { ImageUrlPipe } from '../../helpers/pipes/image-url.pipe';
+import { PostFeedComponent } from './post-feed/post-feed.component';
+import { ChatsService } from '../../data/services/chats.sevice';
 
 @Component({
   selector: 'app-profile-page',
@@ -19,24 +18,34 @@ import {PostFeedComponent} from './post-feed/post-feed.component';
     SvgIconComponent,
     RouterLink,
     ImageUrlPipe,
-    PostFeedComponent
+    PostFeedComponent,
   ],
   templateUrl: './profile-page.component.html',
-  styleUrl: './profile-page.component.scss'
+  styleUrl: './profile-page.component.scss',
 })
 export class ProfilePageComponent {
   profileService = inject(ProfileService);
-  route = inject(ActivatedRoute)
+  chatsService = inject(ChatsService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
 
-  me$ = toObservable(this.profileService.me)
+  me$ = toObservable(this.profileService.me);
   subscribers$ = this.profileService.getSubscribersShortList(5);
 
-  profile$ = this.route.params
-    .pipe(
-      switchMap(({id}) => {
-        if (id === 'me') return this.me$
+  isMyPage = signal(false);
 
-        return this.profileService.getAccount(id)
-      })
-    )
+  profile$ = this.route.params.pipe(
+    switchMap(({ id }) => {
+      this.isMyPage.set(id === 'me' || id === this.profileService.me()?.id);
+      if (id === 'me') return this.me$;
+
+      return this.profileService.getAccount(id);
+    }),
+  );
+
+  async sendMessage(userId: number) {
+    firstValueFrom(this.chatsService.createChat(userId)).then((res) => {
+      this.router.navigate(['/chats', res.id]);
+    });
+  }
 }
