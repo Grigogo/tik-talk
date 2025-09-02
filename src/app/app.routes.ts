@@ -5,8 +5,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { LayoutComponent } from './common-ui/layout/layout.component';
 import { canActivateAuth } from './auth/acces.guard';
 import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
-import { ChatsPageComponent } from './pages/chats/chats.component';
-import { chatsRoutes } from './pages/chats/chatRoutes';
+import { chatsRoutes } from './pages/chats/chatsRoutes';
 
 export const routes: Routes = [
   {

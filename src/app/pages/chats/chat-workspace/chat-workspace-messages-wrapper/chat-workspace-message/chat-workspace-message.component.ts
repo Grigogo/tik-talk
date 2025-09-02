@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, input} from '@angular/core';
+import {IMessage} from '../../../../../data/interfaces/chats.interface';
 
 @Component({
   selector: 'app-chat-workspace-message',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './chat-workspace-message.component.scss'
 })
 export class ChatWorkspaceMessageComponent {
-
+  message = input.required<IMessage>();
 }
+

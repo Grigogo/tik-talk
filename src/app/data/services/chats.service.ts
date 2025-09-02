@@ -35,7 +35,7 @@ export class ChatsService {
 
   sendMessage(chatId: number, message: string) {
     return this.http.post<IMessage>(
-      `${this.messageUrl}${chatId}`,
+      `${this.messageUrl}send/${chatId}`,
       {},
       {
         params: {
