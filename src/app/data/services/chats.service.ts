@@ -6,7 +6,7 @@ import {
   IMessage,
 } from '../interfaces/chats.interface';
 import { ProfileService } from './profile.service';
-import { map } from 'rxjs';
+import {map} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

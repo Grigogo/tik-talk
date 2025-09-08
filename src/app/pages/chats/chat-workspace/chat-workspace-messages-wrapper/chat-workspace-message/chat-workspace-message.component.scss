@@ -5,11 +5,21 @@
 }
 
 :host.is-mine {
-  grid-template-columns: min-content 32px;
+  grid-template-columns: max-content 32px;
   justify-self: end;
 
   .message-container {
     order: -1;
+    justify-items: end;
+  }
+
+  .message-text {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    font-weight: 500;
+    color: var(--dark-color);
+    width: min-content;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
   }
 }
 
@@ -19,10 +29,5 @@
   font-weight: 500;
   color: var(--light-color);
   width: min-content;
-  //mask: linear-gradient(#000 0 0), linear-gradient(-135deg, #000 50%, #0000 0) border-box 100% 100% / 200% 200% no-repeat;
-  //mask-composite: exclude;
-  //mask-position: 10% 94%;
-  mask: linear-gradient(#000 0 0), linear-gradient(135deg, #000 20%, #0000 0) border-box 100% 100% / 200% 200% no-repeat;
-  mask-composite: exclude;
-  mask-position: 4% 94%;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
 }
