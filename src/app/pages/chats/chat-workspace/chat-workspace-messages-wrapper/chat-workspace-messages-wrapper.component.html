@@ -1,12 +1,13 @@
-<div class="messages__wrapper">
-  @for (message of messages(); track message.id) {
-    <app-chat-workspace-message
-      [message]="message"
-    >
-    </app-chat-workspace-message>
-  }
+<div class="chat-container">
+  <div class="messages__wrapper">
+    @for (message of messages(); track message.id) {
+      <app-chat-workspace-message
+        [message]="message"
+      >
+      </app-chat-workspace-message>
+    }
+  </div>
+  <app-message-input
+    (created)="onSendMessage($event)"
+  ></app-message-input>
 </div>
-
-<app-message-input
-  (created)="onSendMessage($event)"
-></app-message-input>

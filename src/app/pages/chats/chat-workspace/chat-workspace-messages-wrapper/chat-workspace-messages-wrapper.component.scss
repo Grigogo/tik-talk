@@ -1,12 +1,25 @@
 :host {
   display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
   padding: 16px 20px;
-  grid-template-rows: 1fr min-content;
-  overflow-y: scroll;
+  box-sizing: border-box;
+}
 
+.chat-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: calc(100vh - 80px - 76px);
 }
 
 .messages__wrapper {
   display: grid;
   grid-gap: 12px;
+  overflow-y: auto;
+  padding-bottom: 12px;
+  align-content: start
+}
+
+app-message-input {
+  position: relative;
 }
