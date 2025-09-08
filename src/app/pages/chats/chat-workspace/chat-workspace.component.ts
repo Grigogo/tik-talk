@@ -1,10 +1,11 @@
-import {Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ChatWorkspaceHeaderComponent } from './chat-workspace-header/chat-workspace-header.component';
 import { ChatWorkspaceMessagesWrapperComponent } from './chat-workspace-messages-wrapper/chat-workspace-messages-wrapper.component';
 import { ActivatedRoute } from '@angular/router';
-import {ChatsService} from '../../../data/services/chats.service';
-import {switchMap} from 'rxjs';
-import {AsyncPipe} from '@angular/common';
+import { ChatsService } from '../../../data/services/chats.service';
+import { switchMap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { MessageInputComponent } from '../../../common-ui/message-input/message-input.component';
 
 @Component({
   selector: 'app-chat-workspace',
@@ -18,10 +19,9 @@ import {AsyncPipe} from '@angular/common';
 })
 export class ChatWorkspaceComponent {
   route = inject(ActivatedRoute);
-  chatsService = inject(ChatsService)
+  chatsService = inject(ChatsService);
 
-  activeChat$ = this.route.params
-    .pipe(
-      switchMap(({id}) => this.chatsService.getChatById(id))
-    )
+  activeChat$ = this.route.params.pipe(
+    switchMap(({ id }) => this.chatsService.getChatById(id)),
+  );
 }
