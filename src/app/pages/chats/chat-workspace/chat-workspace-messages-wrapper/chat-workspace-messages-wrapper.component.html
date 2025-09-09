@@ -1,10 +1,15 @@
 <div class="chat-container">
   <div class="messages__wrapper">
-    @for (message of messages(); track message.id) {
-      <app-chat-workspace-message
-        [message]="message"
-      >
-      </app-chat-workspace-message>
+    @for (group of messages() | groupedMessageByDate; track group.date) {
+      <div class="messages__date-header">
+        {{ group.date }}
+      </div>
+      @for (message of group.messages; track message.id) {
+        <app-chat-workspace-message
+          [message]="message"
+        >
+        </app-chat-workspace-message>
+      }
     }
   </div>
   <app-message-input
