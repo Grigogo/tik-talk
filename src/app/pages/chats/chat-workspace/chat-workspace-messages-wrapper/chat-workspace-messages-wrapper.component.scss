@@ -20,6 +20,12 @@
   align-content: start
 }
 
+.messages__date-header {
+  padding: 6px 30px;
+  background-color: var(--message-date-color);
+  margin: 0 auto;
+}
+
 app-message-input {
   position: relative;
 }
