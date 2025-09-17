@@ -6,6 +6,7 @@ import { LayoutComponent } from './common-ui/layout/layout.component';
 import { canActivateAuth } from './auth/acces.guard';
 import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
 import { chatsRoutes } from './pages/chats/chatsRoutes';
+import { FormExperimentComponent } from './lib/experimental/form-experiment/form-experiment.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
         path: 'chats',
         loadChildren: () => chatsRoutes,
       },
+      { path: 'forms', component: FormExperimentComponent },
     ],
     canActivate: [canActivateAuth],
   },

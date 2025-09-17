@@ -1,13 +1,11 @@
-import {Component, inject} from '@angular/core';
-import {SvgIconComponent} from '../svg-icon/svg-icon.component';
-import {
-  SubscriberCardComponent
-} from '../subscriber-card/subscriber-card.component';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-import {ProfileService} from '../../data/services/profile.service';
-import {AsyncPipe} from '@angular/common';
-import {firstValueFrom} from 'rxjs';
-import {ImageUrlPipe} from '../../helpers/pipes/image-url.pipe';
+import { Component, inject } from '@angular/core';
+import { SvgIconComponent } from '../svg-icon/svg-icon.component';
+import { SubscriberCardComponent } from '../subscriber-card/subscriber-card.component';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ProfileService } from '../../data/services/profile.service';
+import { AsyncPipe } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
+import { ImageUrlPipe } from '../../helpers/pipes/image-url.pipe';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,10 +15,10 @@ import {ImageUrlPipe} from '../../helpers/pipes/image-url.pipe';
     RouterLink,
     AsyncPipe,
     ImageUrlPipe,
-    RouterLinkActive
+    RouterLinkActive,
   ],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
   profileService = inject(ProfileService);
@@ -29,27 +27,30 @@ export class SidebarComponent {
 
   me = this.profileService.me;
 
-
   menuItems = [
     {
       label: 'Моя страница',
       icon: 'home',
-      link: 'profile/me'
+      link: 'profile/me',
     },
     {
       label: 'Чаты',
       icon: 'chat',
-      link: 'chats'
+      link: 'chats',
     },
     {
       label: 'Поиск',
       icon: 'search',
-      link: 'search'
+      link: 'search',
     },
-  ]
+    {
+      label: 'Формы',
+      icon: 'search',
+      link: 'forms',
+    },
+  ];
 
   ngOnInit(): void {
     firstValueFrom(this.profileService.getMe());
   }
-
 }
