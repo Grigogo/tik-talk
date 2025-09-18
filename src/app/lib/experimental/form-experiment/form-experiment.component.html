@@ -1,39 +1,59 @@
-<form class="form">
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit($event)">
   <h4 class="h4 mb16">Информация о доставке</h4>
 
   <label class="tt-control-label mb16">
     Тип получателя
-    <select class="tt-input">
-      <option value="">Физическое лицол</option>
-      <option value="">Юридическое лицо</option>
+    <select class="tt-input" formControlName="type">
+      <option [value]="ReceiverType.PERSON">Физическое лицол</option>
+      <option [value]="ReceiverType.LEGAL">Юридическое лицо</option>
     </select>
   </label>
 
   <label class="tt-control-label mb16">
-    Name
+    Имя
     <input
+      formControlName="name"
       type="text"
       class="tt-input"
       placeholder="Введите имя"
     >
   </label>
+  @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+    <small>Это поле обязательно</small>
+  }
 
-  <label class="tt-control-label mb16">
-    LastName
-    <input
-      type="text"
-      class="tt-input"
-      placeholder="Введите фамилию"
-    >
-  </label>
+  @if (form.controls.type.value === ReceiverType.LEGAL) {
+    <label class="tt-control-label mb16">
+      ИНН
+      <input
+        formControlName="inn"
+        type="text"
+        class="tt-input"
+        placeholder="Введите ИНН"
+      >
+    </label>
 
-  <div>
+
+  } @else {
+    <label class="tt-control-label mb16">
+      Фамилия
+      <input
+        formControlName="lastName"
+        type="text"
+        class="tt-input"
+        placeholder="Введите фамилию"
+      >
+    </label>
+  }
+
+  <div formGroupName="address">
     <h4 class="h6 mb16">Адрес доставки</h4>
 
     <div class="form-grid">
       <label class="tt-control-label mb16">
         Город
         <input
+          formControlName="city"
           type="text"
           class="tt-input"
           placeholder="Введите город"
@@ -43,6 +63,7 @@
       <label class="tt-control-label mb16">
         Улица
         <input
+          formControlName="street"
           type="text"
           class="tt-input"
           placeholder="Введите улицу"
@@ -52,6 +73,7 @@
       <label class="tt-control-label mb16">
         Дом
         <input
+          formControlName="building"
           type="text"
           class="tt-input"
           placeholder="Дом"
@@ -61,6 +83,7 @@
       <label class="tt-control-label mb16">
         Квартира
         <input
+          formControlName="apartment"
           type="text"
           class="tt-input"
           placeholder="Квартира"
