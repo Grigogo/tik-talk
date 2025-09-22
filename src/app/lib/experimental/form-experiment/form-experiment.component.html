@@ -4,7 +4,7 @@
   <label class="tt-control-label mb16">
     Тип получателя
     <select class="tt-input" formControlName="type">
-      <option [value]="ReceiverType.PERSON">Физическое лицол</option>
+      <option [value]="ReceiverType.PERSON">Физическое лицо</option>
       <option [value]="ReceiverType.LEGAL">Юридическое лицо</option>
     </select>
   </label>
@@ -46,51 +46,64 @@
     </label>
   }
 
-  <div formGroupName="address">
-    <h4 class="h6 mb16">Адрес доставки</h4>
-
-    <div class="form-grid">
-      <label class="tt-control-label mb16">
-        Город
-        <input
-          formControlName="city"
-          type="text"
-          class="tt-input"
-          placeholder="Введите город"
-        >
-      </label>
-
-      <label class="tt-control-label mb16">
-        Улица
-        <input
-          formControlName="street"
-          type="text"
-          class="tt-input"
-          placeholder="Введите улицу"
-        >
-      </label>
-
-      <label class="tt-control-label mb16">
-        Дом
-        <input
-          formControlName="building"
-          type="text"
-          class="tt-input"
-          placeholder="Дом"
-        >
-      </label>
-
-      <label class="tt-control-label mb16">
-        Квартира
-        <input
-          formControlName="apartment"
-          type="text"
-          class="tt-input"
-          placeholder="Квартира"
-        >
-      </label>
+  <div>
+    <div style="display: flex; justify-content: space-between">
+      <h4 class="h6 mb16">Адрес доставки</h4>
+      <button class="btn" style="width: 50px" (click)="addAddress()">+</button>
     </div>
+
+    @for (group of form.controls.addresses.controls; track group; let i = $index) {
+      <div class="form-grid" [formGroup]="group">
+        <label class="tt-control-label mb16">
+          Город
+          <input
+            formControlName="city"
+            type="text"
+            class="tt-input"
+            placeholder="Введите город"
+          >
+        </label>
+
+        <label class="tt-control-label mb16">
+          Улица
+          <input
+            formControlName="street"
+            type="text"
+            class="tt-input"
+            placeholder="Введите улицу"
+          >
+        </label>
+
+        <label class="tt-control-label mb16">
+          Дом
+          <input
+            formControlName="building"
+            type="text"
+            class="tt-input"
+            placeholder="Дом"
+          >
+        </label>
+
+        <label class="tt-control-label mb16">
+          Квартира
+          <input
+            formControlName="apartment"
+            type="text"
+            class="tt-input"
+            placeholder="Квартира"
+          >
+        </label>
+        <button
+          class="btn"
+          style="grid-column-start: 1; grid-column-end: 3"
+          (click)="deleteAddress(i)">
+          Удалить
+        </button>
+
+      </div>
+    }
   </div>
+
 
   <button class="btn btn-shadow mt20" type="submit">Подтвердить</button>
 </form>

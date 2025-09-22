@@ -6,4 +6,12 @@
 
 .form {
   width: 50dvh;
+  display: grid;
+  gap: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 12px;
 }

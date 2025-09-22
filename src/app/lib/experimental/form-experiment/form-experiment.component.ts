@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
+  FormArray,
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -12,6 +14,15 @@ enum ReceiverType {
   LEGAL = 'LEGAL',
 }
 
+function getAddressForm() {
+  return new FormGroup({
+    city: new FormControl<string>(''),
+    street: new FormControl<string>(''),
+    building: new FormControl<string | null>(null),
+    apartment: new FormControl<number | null>(null),
+  });
+}
+
 @Component({
   selector: 'app-form-experiment',
   imports: [ReactiveFormsModule],
@@ -21,18 +32,30 @@ enum ReceiverType {
 export class FormExperimentComponent {
   ReceiverType = ReceiverType;
 
+  // #fb = inject(FormBuilder);
+  //
+  // form = this.#fb.group({
+  //   type: this.#fb.nonNullable.control<ReceiverType>(ReceiverType.PERSON),
+  //   name: this.#fb.control<string>(''),
+  //   lastName: this.#fb.control<string>(''),
+  //   inn: this.#fb.control<string>(''),
+  //   address: this.#fb.group({
+  //     city: this.#fb.control<string>(''),
+  //     street: this.#fb.control<string>(''),
+  //     building: this.#fb.control<string | null>(null),
+  //     apartment: this.#fb.control<number | null>(null),
+  //   }),
+  // });
+
   form = new FormGroup({
     type: new FormControl<ReceiverType>(ReceiverType.PERSON),
     name: new FormControl<string>('', Validators.required),
     lastName: new FormControl<string>(''),
     inn: new FormControl<string>(''),
-    address: new FormGroup({
-      city: new FormControl<string>(''),
-      street: new FormControl<string>(''),
-      building: new FormControl<string | null>(null),
-      apartment: new FormControl<number | null>(null),
-    }),
+    addresses: new FormArray([getAddressForm()]),
   });
+
+  mockService = inject(MockService);
 
   constructor() {
     this.form.controls.type.valueChanges
@@ -66,7 +89,9 @@ export class FormExperimentComponent {
     //   emitEvent: true,
     // });
 
-    this.form.controls.type.patchValue(ReceiverType.LEGAL, {});
+    this.form.controls.type.patchValue(ReceiverType.LEGAL, {
+      // onlySelf: true,
+    });
 
     // console.log(this.form.valid);
     // console.log(this.form.value);
@@ -75,5 +100,16 @@ export class FormExperimentComponent {
     this.form.updateValueAndValidity();
 
     if (this.form.invalid) return;
+
+    console.log(this.form.value);
+    console.log(this.form.getRawValue());
+  }
+
+  addAddress() {
+    this.form.controls.addresses.push(getAddressForm());
+  }
+
+  deleteAddress(index: number) {
+    this.form.controls.addresses.removeAt(index, { emitEvent: false });
   }
 }
