@@ -8,20 +8,30 @@ import {
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {MockService} from './mock.service';
 
 enum ReceiverType {
   PERSON = 'PERSON',
   LEGAL = 'LEGAL',
 }
 
-function getAddressForm() {
+interface IAddress {
+  city?: string
+  street?: string
+  building?: string
+  apartment?: number
+}
+
+function getAddressForm(initialValue: IAddress = {} ) {
   return new FormGroup({
-    city: new FormControl<string>(''),
-    street: new FormControl<string>(''),
-    building: new FormControl<string | null>(null),
-    apartment: new FormControl<number | null>(null),
+    city: new FormControl<string>(initialValue.city ?? ''),
+    street: new FormControl<string>(initialValue.street ?? ''),
+    building: new FormControl<string | null>(initialValue.building ?? ''),
+    apartment: new FormControl<number | null>(initialValue.apartment ?? null),
   });
 }
+
+
 
 @Component({
   selector: 'app-form-experiment',
@@ -58,6 +68,19 @@ export class FormExperimentComponent {
   mockService = inject(MockService);
 
   constructor() {
+    this.mockService.getAddresses()
+      .pipe(takeUntilDestroyed())
+      .subscribe(addrs => {
+        while(this.form.controls.addresses.controls.length > 0) {
+          this.form.controls.addresses.removeAt(0);
+        }
+
+        for(const addr of addrs) {
+          this.form.controls.addresses.push(getAddressForm(addr))
+        }
+      })
+
+
     this.form.controls.type.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((val) => {
