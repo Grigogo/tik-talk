@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 
-interface IFeature {
+export interface IFeature {
   code: string
   label: string
   value: boolean
@@ -42,7 +42,7 @@ export class MockService {
       {
         code: 'fast',
         label: 'Ускоренная доставка',
-        value: true
+        value: false
       }
     ])
   }

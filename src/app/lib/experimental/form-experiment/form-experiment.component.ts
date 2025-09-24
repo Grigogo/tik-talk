@@ -3,12 +3,13 @@ import {
   FormArray,
   FormBuilder,
   FormControl,
-  FormGroup,
+  FormGroup, FormRecord,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {MockService} from './mock.service';
+import {MockService, IFeature} from './mock.service';
+import {KeyValuePipe} from '@angular/common';
 
 enum ReceiverType {
   PERSON = 'PERSON',
@@ -35,7 +36,7 @@ function getAddressForm(initialValue: IAddress = {} ) {
 
 @Component({
   selector: 'app-form-experiment',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, KeyValuePipe],
   templateUrl: './form-experiment.component.html',
   styleUrl: './form-experiment.component.scss',
 })
@@ -63,22 +64,45 @@ export class FormExperimentComponent {
     lastName: new FormControl<string>(''),
     inn: new FormControl<string>(''),
     addresses: new FormArray([getAddressForm()]),
+    feature: new FormRecord({})
   });
 
   mockService = inject(MockService);
+  features: IFeature[] = [];
 
   constructor() {
     this.mockService.getAddresses()
       .pipe(takeUntilDestroyed())
       .subscribe(addrs => {
-        while(this.form.controls.addresses.controls.length > 0) {
-          this.form.controls.addresses.removeAt(0);
-        }
+        // while(this.form.controls.addresses.controls.length > 0) {
+        //   this.form.controls.addresses.removeAt(0);
+        // }
+
+        this.form.controls.addresses.clear();
 
         for(const addr of addrs) {
           this.form.controls.addresses.push(getAddressForm(addr))
         }
+
+        // this.form.controls.addresses.setControl(1, getAddressForm(addrs[0]));
+
+        // console.log(this.form.controls.addresses.at(0));
+
+        // this.form.controls.addresses.disable();
       })
+
+    this.mockService.getFeatures()
+      .pipe(takeUntilDestroyed())
+    .subscribe(features => {
+      this.features = features;
+
+      for (const feature of features) {
+        this.form.controls.feature.addControl(
+          feature.code,
+          new FormControl(feature.value)
+        )
+      }
+    })
 
 
     this.form.controls.type.valueChanges
@@ -135,4 +159,6 @@ export class FormExperimentComponent {
   deleteAddress(index: number) {
     this.form.controls.addresses.removeAt(index, { emitEvent: false });
   }
+
+  sort = () => 0;
 }

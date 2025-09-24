@@ -104,6 +104,23 @@
     }
   </div>
 
+  <div [formGroup]="form.controls.feature">
+    <h4 class="h6 mb16">Дополнительно</h4>
+
+    <div style="display: grid; grid-gap: 16px">
+      @for (
+        control of form.controls.feature.controls | keyvalue: sort;
+        track control;
+        let i = $index
+        ) {
+        <label>
+          {{features[i].label}}
+          <input type="checkbox" [formControlName]="control.key" >
+        </label>
+      }
+    </div>
+  </div>
+
 
   <button class="btn btn-shadow mt20" type="submit">Подтвердить</button>
 </form>
