@@ -13,6 +13,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MockService, IFeature } from './mock.service';
 import { KeyValuePipe } from '@angular/common';
+import {NameValidator} from './name.validator';
 
 enum ReceiverType {
   PERSON = 'PERSON',
@@ -95,6 +96,11 @@ function validateDateRange({
 export class FormExperimentComponent {
   ReceiverType = ReceiverType;
 
+  mockService = inject(MockService);
+  nameValidator = inject(NameValidator);
+
+  features: IFeature[] = [];
+
   // #fb = inject(FormBuilder);
   //
   // form = this.#fb.group({
@@ -112,10 +118,11 @@ export class FormExperimentComponent {
 
   form = new FormGroup({
     type: new FormControl<ReceiverType>(ReceiverType.PERSON),
-    name: new FormControl<string>('', [
-      Validators.required,
-      validateStartWith('m'),
-    ]),
+    name: new FormControl<string>('', {
+      validators: [Validators.required],
+      asyncValidators: [this.nameValidator.validate.bind(this.nameValidator)],
+      updateOn: 'blur',
+    }),
     lastName: new FormControl<string>(''),
     inn: new FormControl<string>(''),
     addresses: new FormArray([getAddressForm()]),
@@ -128,9 +135,6 @@ export class FormExperimentComponent {
       validateDateRange({ fromControlName: 'from', toControlName: 'to' }),
     ),
   });
-
-  mockService = inject(MockService);
-  features: IFeature[] = [];
 
   constructor() {
     this.mockService

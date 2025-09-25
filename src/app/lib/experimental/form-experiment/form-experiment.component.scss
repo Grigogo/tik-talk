@@ -45,3 +45,7 @@
   cursor: pointer;
   color: red;
 }
+
+.tt-input.ng-pending {
+  border: 1px var(--primary-color) dashed;
+}

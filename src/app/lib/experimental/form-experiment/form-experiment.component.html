@@ -23,6 +23,10 @@
   @if (form.controls.name.touched && form.controls.name.hasError('startsWith')) {
     <small>{{ form.controls.name.getError('startsWith')?.message }}</small>
   }
+
+  @if (form.controls.name.touched && form.controls.name.hasError('nameValid')) {
+    <small>{{ form.controls.name.getError('nameValid')?.message }}</small>
+  }
   <!--  @if (form.controls.name.touched && form.controls.name.hasError('required')) {-->
   <!--    <small>Это поле обязательно</small>-->
   <!--  }-->
