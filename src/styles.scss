@@ -11,8 +11,10 @@
   --dark-hover-color: #161616;
   --message-color: #404040;
   --message-date-color: #191919;
+  --red-primary: #E99898;
 
   --light-border: 1px solid var(--light-color);
+  --invalid-border: 1px solid var(--red-primary);
 }
 
 *,

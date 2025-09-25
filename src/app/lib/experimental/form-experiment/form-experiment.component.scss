@@ -15,3 +15,33 @@
   grid-template-columns: 1fr 1fr;
   grid-gap: 12px;
 }
+
+.validation {
+  display: none;
+}
+
+.tt-input.ng-invalid.ng-touched {
+  border: var(--invalid-border);
+}
+
+.tt-input.ng-invalid.ng-touched + .validation {
+  display: block;
+}
+
+//.ng-submitted {
+//  border: var(--invalid-border);
+//}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.tt-input::-webkit-calendar-picker-indicator {
+  background: var(--primary-color);
+  cursor: pointer;
+  color: red;
+}
