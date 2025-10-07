@@ -11,7 +11,7 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { authTokenInterceptor } from '../../../../libs/auth/src/lib/auth/auth.interceptor';
+import { authTokenInterceptor } from '@tt/auth';
 
 export const appConfig: ApplicationConfig = {
   providers: [

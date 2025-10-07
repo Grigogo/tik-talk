@@ -13,8 +13,23 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "auth": [
+      "@tt/auth": [
         "libs/auth/src/index.ts"
+      ],
+      "@tt/common-ui": [
+        "libs/common-ui/src/index.ts"
+      ],
+      "@tt/posts": [
+        "libs/posts/src/index.ts"
+      ],
+      "@tt/profile": [
+        "libs/profile/src/index.ts"
+      ],
+      "@tt/shared": [
+        "libs/shared/src/index.ts"
+      ],
+      "@tt/chats": [
+        "libs/chats/src/index.ts"
       ]
     },
     "baseUrl": ".",

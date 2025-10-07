@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
-import { SearchPageComponent } from './pages/search-page/search-page.component';
-import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
-import { LayoutComponent } from './common-ui/layout/layout.component';
-import { canActivateAuth } from '../../../../libs/auth/src/lib/auth/acces.guard';
-import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
-import { chatsRoutes } from './pages/chats/chatsRoutes';
+import { LoginPageComponent } from '@tt/auth';
+import { SearchPageComponent } from '@tt/profile';
+import { LayoutComponent } from '@tt/common-ui';
+import { SettingsPageComponent } from '@tt/profile';
+import { chatsRoutes } from '@tt/chats';
 import { FormExperimentComponent } from './lib/experimental/form-experiment/form-experiment.component';
+import { ProfilePageComponent } from '@tt/profile';
+import { canActivateAuth } from '@tt/auth';
 
 export const routes: Routes = [
   {
@@ -18,7 +18,7 @@ export const routes: Routes = [
       { path: 'settings', component: SettingsPageComponent },
       { path: 'search', component: SearchPageComponent },
       {
-        path: 'chats',
+        path: 'chats-page',
         loadChildren: () => chatsRoutes,
       },
       { path: 'forms', component: FormExperimentComponent },

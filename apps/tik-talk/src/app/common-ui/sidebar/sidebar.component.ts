@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { SubscriberCardComponent } from '../subscriber-card/subscriber-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ProfileService } from '../../data/services/profile.service';
 import { AsyncPipe } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
-import { ImageUrlPipe } from '../../helpers/pipes/image-url.pipe';
+import { ImageUrlPipe, SvgIconComponent } from '@tt/common-ui';
+import { ProfileService } from '@tt/profile';
 
 @Component({
   selector: 'app-sidebar',
@@ -36,7 +35,7 @@ export class SidebarComponent {
     {
       label: 'Чаты',
       icon: 'chat',
-      link: 'chats',
+      link: 'chats-page',
     },
     {
       label: 'Поиск',
