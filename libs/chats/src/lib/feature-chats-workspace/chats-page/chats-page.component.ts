@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ChatsListComponent } from '@tt/chats';
+import { ChatsListComponent } from './../chats-list/chats-list.component';
 
 @Component({
   selector: 'app-chats-page',

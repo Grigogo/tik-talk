@@ -4,7 +4,7 @@ import {
   IChat,
   ILastMessageResponse,
   IMessage,
-} from '../interfaces/chats.interface';
+} from '@tt/interfaces/chats/chats.interface';
 import { ProfileService } from '@tt/profile';
 import { map } from 'rxjs';
 

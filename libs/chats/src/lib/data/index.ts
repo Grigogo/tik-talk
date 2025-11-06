@@ -3,7 +3,7 @@ import {
   IChat,
   IMessage,
   ILastMessageResponse,
-} from './interfaces/chats.interface';
+} from '@tt/interfaces/chats/chats.interface';
 
 export { ChatsService };
 export type { IChat, IMessage, ILastMessageResponse };

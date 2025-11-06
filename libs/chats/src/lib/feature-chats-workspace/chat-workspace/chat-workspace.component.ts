@@ -28,7 +28,6 @@ export class ChatWorkspaceComponent {
         return this.route.queryParams.pipe(
           filter(({ userId }) => userId),
           switchMap(({ userId }) => {
-            console.log('qparams:', userId);
             return this.chatsService.createChat(userId).pipe(
               switchMap((chat) => {
                 this.router.navigate(['chats', chat.id]);

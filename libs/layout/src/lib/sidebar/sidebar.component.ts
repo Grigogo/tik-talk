@@ -6,10 +6,6 @@ import { firstValueFrom } from 'rxjs';
 import { ImageUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { ProfileService } from '@tt/profile';
 
-console.log('SubscriberCardComponent:', SubscriberCardComponent);
-console.log('SvgIconComponent:', SvgIconComponent);
-console.log('ImageUrlPipe:', ImageUrlPipe);
-
 @Component({
   selector: 'app-sidebar',
   standalone: true,
