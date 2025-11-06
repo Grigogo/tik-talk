@@ -1,16 +1,12 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { ChatWorkspaceMessageComponent } from './chat-workspace-message/chat-workspace-message.component';
-import { MessageInputComponent, ChatsService, IChat } from '@tt/chats';
+import { MessageInputComponent } from '../../../ui';
+import { ChatsService, IChat } from '../../../data';
 import { firstValueFrom } from 'rxjs';
-import { GroupedMessageByDatePipe } from '@tt/common-ui';
 
 @Component({
   selector: 'app-chat-workspace-messages-wrapper',
-  imports: [
-    ChatWorkspaceMessageComponent,
-    MessageInputComponent,
-    GroupedMessageByDatePipe,
-  ],
+  imports: [ChatWorkspaceMessageComponent, MessageInputComponent],
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   styleUrl: './chat-workspace-messages-wrapper.component.scss',
 })
@@ -18,7 +14,11 @@ export class ChatWorkspaceMessagesWrapperComponent {
   chatsService = inject(ChatsService);
 
   chat = input.required<IChat>();
-  messages = this.chatsService.activeChatMessages;
+  groupedMessages = computed(() => {
+    return this.chatsService.groupMessagesByDate(
+      this.chatsService.activeChatMessages(),
+    );
+  });
 
   async onSendMessage(messageText: string) {
     await firstValueFrom(

@@ -6,7 +6,7 @@ import {
 import { inject, Injectable } from '@angular/core';
 import { delay, map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { IProfile } from '../../../../../../../libs/profile/src/lib/data/interfaces/profile.interface';
+import { IProfile } from '../../../../../../../libs/interfaces/src/lib/profile/profile.interface';
 
 @Injectable({
   providedIn: 'root',

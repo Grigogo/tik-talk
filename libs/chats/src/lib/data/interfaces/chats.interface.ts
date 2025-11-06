@@ -1,4 +1,4 @@
-import { IProfile } from '@tt/profile';
+import { IProfile } from '@tt/interfaces/profile';
 
 export interface IChat {
   id: number;

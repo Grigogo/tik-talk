@@ -59,6 +59,62 @@ export class ChatsService {
     );
   }
 
+  groupMessagesByDate(
+    messages: IMessage[],
+  ): { date: string; messages: IMessage[] }[] {
+    if (!messages || !messages.length) {
+      return [];
+    }
+
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const messagesByDate = messages.reduce(
+      (acc, message) => {
+        const messageDate = new Date(message.createdAt);
+        let dateKey: string;
+
+        if (messageDate.toDateString() === today.toDateString()) {
+          dateKey = 'Сегодня';
+        } else if (messageDate.toDateString() === yesterday.toDateString()) {
+          dateKey = 'Вчера';
+        } else {
+          dateKey = messageDate.toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          });
+        }
+
+        if (!acc[dateKey]) {
+          acc[dateKey] = [];
+        }
+        acc[dateKey].push(message);
+        return acc;
+      },
+      {} as { [key: string]: IMessage[] },
+    );
+
+    return Object.keys(messagesByDate)
+      .map((date) => ({
+        date,
+        messages: messagesByDate[date],
+      }))
+      .sort((a, b) => {
+        const getActualDate = (group: {
+          date: string;
+          messages: IMessage[];
+        }) => {
+          if (group.date === 'Сегодня') return today;
+          if (group.date === 'Вчера') return yesterday;
+          return new Date(group.messages[0].createdAt);
+        };
+
+        return getActualDate(a).getTime() - getActualDate(b).getTime();
+      });
+  }
+
   sendMessage(chatId: number, message: string) {
     return this.http.post<IMessage>(
       `${this.messageUrl}send/${chatId}`,

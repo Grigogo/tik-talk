@@ -20,7 +20,7 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { ProfileService } from '@tt/profile';
+import { GlobalStoreService } from '@tt/shared';
 
 @Component({
   selector: 'app-post-feed',
@@ -36,7 +36,7 @@ export class PostFeedComponent implements AfterViewInit, OnDestroy {
 
   isCommentInput = input(false);
   postId = input<number>(0);
-  profile = inject(ProfileService).me;
+  profile = inject(GlobalStoreService).me;
 
   @Output() created = new EventEmitter();
 

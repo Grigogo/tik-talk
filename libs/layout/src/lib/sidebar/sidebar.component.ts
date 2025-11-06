@@ -1,13 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { SubscriberCardComponent } from '../subscriber-card/subscriber-card.component';
+import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { ImageUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { ProfileService } from '@tt/profile';
 
+console.log('SubscriberCardComponent:', SubscriberCardComponent);
+console.log('SvgIconComponent:', SvgIconComponent);
+console.log('ImageUrlPipe:', ImageUrlPipe);
+
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
   imports: [
     SvgIconComponent,
     SubscriberCardComponent,

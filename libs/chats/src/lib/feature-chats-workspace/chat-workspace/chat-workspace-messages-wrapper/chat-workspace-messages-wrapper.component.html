@@ -1,6 +1,6 @@
 <div class="chat-container">
   <div class="messages__wrapper">
-    @for (group of messages() | groupedMessageByDate; track group.date) {
+    @for (group of groupedMessages(); track group.date) {
       <div class="messages__date-header">
         {{ group.date }}
       </div>
@@ -12,3 +12,4 @@
   </div>
   <app-message-input (created)="onSendMessage($event)"></app-message-input>
 </div>
+

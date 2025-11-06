@@ -1,12 +1,13 @@
 import { Routes } from '@angular/router';
-import { LoginPageComponent } from '@tt/auth';
-import { SearchPageComponent } from '@tt/profile';
-import { LayoutComponent } from '@tt/common-ui';
-import { SettingsPageComponent } from '@tt/profile';
+import { LoginPageComponent, canActivateAuth } from '@tt/auth';
 import { chatsRoutes } from '@tt/chats';
+import {
+  SearchPageComponent,
+  ProfilePageComponent,
+  SettingsPageComponent,
+} from '@tt/profile';
 import { FormExperimentComponent } from './lib/experimental/form-experiment/form-experiment.component';
-import { ProfilePageComponent } from '@tt/profile';
-import { canActivateAuth } from '@tt/auth';
+import { LayoutComponent } from '@tt/layout';
 
 export const routes: Routes = [
   {

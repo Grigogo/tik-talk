@@ -3,6 +3,7 @@ import { ImageUrlPipe } from '../../pipes';
 
 @Component({
   selector: 'app-avatar-circle',
+  standalone: true,
   imports: [ImageUrlPipe],
   templateUrl: './avatar-circle.component.html',
   styleUrl: './avatar-circle.component.scss',
