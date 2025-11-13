@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { PostInputComponent } from '../../ui/';
 import { PostComponent } from '../';
-import { PostService } from '../../data/';
+import { PostService } from '@tt/data-access';
 import {
   debounceTime,
   firstValueFrom,
@@ -20,7 +20,7 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { GlobalStoreService } from '@tt/shared';
+import { GlobalStoreService } from '@tt/data-access';
 
 @Component({
   selector: 'app-post-feed',

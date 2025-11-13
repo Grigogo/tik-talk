@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { IComment } from '../../data';
+import { IComment } from '../../../../../data-access/src/lib/posts';
 import { AvatarCircleComponent, DateFormatPipe } from '@tt/common-ui';
 
 @Component({

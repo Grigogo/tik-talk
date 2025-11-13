@@ -1,8 +1,7 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { IComment, IPost } from '../../data/';
+import { IComment, IPost, PostService } from '@tt/data-access';
 import { PostInputComponent } from '../../ui/';
 import { CommentComponent } from '../../ui/';
-import { PostService } from '../../data/';
 import { firstValueFrom } from 'rxjs';
 import {
   AvatarCircleComponent,
