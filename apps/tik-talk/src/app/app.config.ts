@@ -12,6 +12,8 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { authTokenInterceptor } from '@tt/auth';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection(),
     provideRouter(routes),
     provideHttpClient(withFetch(), withInterceptors([authTokenInterceptor])),
+    provideStore(),
+    provideEffects(),
   ],
 };
