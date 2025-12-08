@@ -1,25 +1,25 @@
-import { IProfile } from '@tt/data-access';
+import { IComment, IPost } from '@tt/data-access';
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { profileActions } from './actions';
+import { postActions } from './actions';
 
-export interface ProfileState {
-  profiles: IProfile[];
-  profileFilters: Record<string, any>;
+export interface PostState {
+  posts: IPost[];
+  comments: Record<number, IComment[]>;
 }
 
-export const initialState: ProfileState = {
-  profiles: [],
-  profileFilters: {},
+const initialState: PostState = {
+  posts: [],
+  comments: {},
 };
 
-export const profileFeature = createFeature({
-  name: 'profileFeature',
+export const postFeature = createFeature({
+  name: 'postFeature',
   reducer: createReducer(
     initialState,
-    on(profileActions.profilesLoaded, (state, payload) => {
+    on(postActions.postsLoaded, (state, { posts }) => {
       return {
         ...state,
-        profiles: payload.profiles,
+        posts,
       };
     }),
   ),

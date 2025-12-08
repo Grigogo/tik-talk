@@ -1,23 +1,30 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { profileActions } from './actions';
-import { map, switchMap } from 'rxjs';
-import { ProfileService } from '@tt/data-access';
+import { catchError, map, of, switchMap } from 'rxjs';
+import { PostService } from '@tt/data-access';
+import { postActions } from './actions';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileEffects {
-  profileService = inject(ProfileService);
+export class PostEffects {
+  postService = inject(PostService);
   actions$ = inject(Actions);
 
-  filterProfiles = createEffect(() => {
+  //Загрузка постов
+
+  loadPosts$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(profileActions.filterEvents),
-      switchMap(({ filters }) => {
-        return this.profileService.filterProfiles(filters);
+      ofType(postActions.postsLoaded),
+      switchMap(() => {
+        return this.postService.fetchPosts().pipe(
+          map((posts) => postActions.postsLoaded({ posts })),
+          catchError((error) => {
+            console.error('Ощибка загрузки постов', error);
+            return of();
+          }),
+        );
       }),
-      map((res) => profileActions.profilesLoaded({ profiles: res.items })),
     );
   });
 }

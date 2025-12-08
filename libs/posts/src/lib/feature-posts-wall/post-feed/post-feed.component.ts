@@ -48,10 +48,6 @@ export class PostFeedComponent implements AfterViewInit, OnDestroy {
   hostElement = inject(ElementRef);
   r2 = inject(Renderer2);
 
-  constructor() {
-    firstValueFrom(this.postService.fetchPosts());
-  }
-
   ngAfterViewInit() {
     this.resizeFeed();
 

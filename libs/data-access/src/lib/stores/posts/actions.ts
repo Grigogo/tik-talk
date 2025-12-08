@@ -1,10 +1,12 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { IProfile } from '@tt/data-access';
+import { IComment, IPost } from '@tt/data-access';
 
-export const profileActions = createActionGroup({
-  source: 'profile',
+export const postActions = createActionGroup({
+  source: 'post',
   events: {
-    'filter events': props<{ filters: Record<string, any> }>(),
-    'profiles loaded': props<{ profiles: IProfile[] }>(),
+    'posts loaded': props<{ posts: IPost[] }>(),
+    'create post': props<{ post: IPost }>(),
+    'create comment': props<{ comment: IComment }>(),
+    'comments loaded': props<{ postId: number; comment: IComment[] }>(),
   },
 });

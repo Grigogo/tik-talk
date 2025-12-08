@@ -8,6 +8,8 @@ import {
   DateFormatPipe,
   SvgIconComponent,
 } from '@tt/common-ui';
+import { Store } from '@ngrx/store';
+import { postActions } from '@tt/data-access';
 
 @Component({
   selector: 'app-post',
@@ -23,12 +25,13 @@ import {
 })
 export class PostComponent implements OnInit {
   post = input<IPost>();
-
   comments = signal<IComment[]>([]);
-
   postService = inject(PostService);
+  store = inject(Store);
 
   async ngOnInit() {
+    this.store.dispatch(postActions.postsLoaded({ posts: [] }));
+
     this.comments.set(this.post()!.comments);
   }
 
