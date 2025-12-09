@@ -9,17 +9,28 @@ export interface PostState {
 
 const initialState: PostState = {
   posts: [],
-  comments: {},
+  comments: [],
 };
 
 export const postFeature = createFeature({
   name: 'postFeature',
   reducer: createReducer(
     initialState,
+
     on(postActions.postsLoaded, (state, payload) => {
       return {
         ...state,
         posts: payload.posts,
+      };
+    }),
+
+    on(postActions.commentsLoaded, (state, { comments }) => {
+      return {
+        ...state,
+        comments: {
+          comments,
+          [comments[0]?.postId]: comments,
+        },
       };
     }),
   ),

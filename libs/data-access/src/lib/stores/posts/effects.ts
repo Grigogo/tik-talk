@@ -43,4 +43,30 @@ export class PostEffects {
       }),
     );
   });
+
+  loadComments$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(postActions.fetchComments),
+      switchMap(({ postId }) =>
+        this.postService
+          .getCommentsByPostId(postId)
+          .pipe(map((comments) => postActions.commentsLoaded({ comments }))),
+      ),
+    );
+  });
+
+  createComment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(postActions.createComment),
+      switchMap(({ payload }) => {
+        return this.postService
+          .createComment({
+            text: payload.text,
+            authorId: payload.authorId,
+            postId: payload.postId,
+          })
+          .pipe(map(() => postActions.fetchPosts()));
+      }),
+    );
+  });
 }
