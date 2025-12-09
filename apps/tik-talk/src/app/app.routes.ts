@@ -10,7 +10,12 @@ import { FormExperimentComponent } from './lib/experimental/form-experiment/form
 import { LayoutComponent } from '@tt/layout';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { ProfileEffects, profileFeature } from '@tt/data-access';
+import {
+  PostEffects,
+  postFeature,
+  ProfileEffects,
+  profileFeature,
+} from '@tt/data-access';
 
 export const routes: Routes = [
   {
@@ -35,6 +40,7 @@ export const routes: Routes = [
       { path: 'forms', component: FormExperimentComponent },
     ],
     canActivate: [canActivateAuth],
+    providers: [provideState(postFeature), provideEffects(PostEffects)],
   },
 
   { path: 'login', component: LoginPageComponent },

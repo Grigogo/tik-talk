@@ -1,18 +1,20 @@
 import {
   AfterViewInit,
   Component,
+  effect,
   ElementRef,
   EventEmitter,
   HostBinding,
   inject,
   input,
   OnDestroy,
+  OnInit,
   Output,
   Renderer2,
 } from '@angular/core';
 import { PostInputComponent } from '../../ui/';
 import { PostComponent } from '../';
-import { PostService } from '@tt/data-access';
+import { postActions, PostService, selectAllPosts } from '@tt/data-access';
 import {
   debounceTime,
   firstValueFrom,
@@ -21,6 +23,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { GlobalStoreService } from '@tt/data-access';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-post-feed',
@@ -28,15 +31,17 @@ import { GlobalStoreService } from '@tt/data-access';
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
 })
-export class PostFeedComponent implements AfterViewInit, OnDestroy {
-  private destroy$ = new Subject<void>();
-
+export class PostFeedComponent implements OnInit, AfterViewInit, OnDestroy {
   postService = inject(PostService);
-  feed = this.postService.posts;
+  hostElement = inject(ElementRef);
+  r2 = inject(Renderer2);
+  private destroy$ = new Subject<void>();
+  profile = inject(GlobalStoreService).me;
+  store = inject(Store);
+  feed = this.store.selectSignal(selectAllPosts);
 
   isCommentInput = input(false);
   postId = input<number>(0);
-  profile = inject(GlobalStoreService).me;
 
   @Output() created = new EventEmitter();
 
@@ -45,8 +50,9 @@ export class PostFeedComponent implements AfterViewInit, OnDestroy {
     return this.isCommentInput();
   }
 
-  hostElement = inject(ElementRef);
-  r2 = inject(Renderer2);
+  ngOnInit() {
+    this.store.dispatch(postActions.fetchPosts());
+  }
 
   ngAfterViewInit() {
     this.resizeFeed();
@@ -74,6 +80,15 @@ export class PostFeedComponent implements AfterViewInit, OnDestroy {
   onCreatePost(postText: string) {
     if (!postText) return;
 
+    this.store.dispatch(
+      postActions.createPost({
+        payload: {
+          title: 'Клёвый пост',
+          content: postText,
+          authorId: this.profile()!.id,
+        },
+      }),
+    );
     if (this.isCommentInput()) {
       firstValueFrom(
         this.postService.createComment({
@@ -86,14 +101,5 @@ export class PostFeedComponent implements AfterViewInit, OnDestroy {
       });
       return;
     }
-    firstValueFrom(
-      this.postService.createPost({
-        title: 'Клёвый пост',
-        content: postText,
-        authorId: this.profile()!.id,
-      }),
-    ).then(() => {
-      postText = '';
-    });
   }
 }

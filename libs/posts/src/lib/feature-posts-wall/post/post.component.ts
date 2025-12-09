@@ -30,8 +30,6 @@ export class PostComponent implements OnInit {
   store = inject(Store);
 
   async ngOnInit() {
-    this.store.dispatch(postActions.postsLoaded({ posts: [] }));
-
     this.comments.set(this.post()!.comments);
   }
 

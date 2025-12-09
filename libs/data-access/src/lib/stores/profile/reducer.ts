@@ -7,7 +7,7 @@ export interface ProfileState {
   profileFilters: Record<string, any>;
 }
 
-export const initialState: ProfileState = {
+const initialState: ProfileState = {
   profiles: [],
   profileFilters: {},
 };

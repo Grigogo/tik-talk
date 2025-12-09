@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { PostService } from '@tt/data-access';
 import { postActions } from './actions';
 
@@ -15,15 +15,31 @@ export class PostEffects {
 
   loadPosts$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(postActions.postsLoaded),
-      switchMap(() => {
+      ofType(postActions.fetchPosts),
+      switchMap((action) => {
         return this.postService.fetchPosts().pipe(
-          map((posts) => postActions.postsLoaded({ posts })),
+          map((posts) => {
+            return postActions.postsLoaded({ posts });
+          }),
           catchError((error) => {
-            console.error('Ощибка загрузки постов', error);
             return of();
           }),
         );
+      }),
+    );
+  });
+
+  createPost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(postActions.createPost),
+      switchMap(({ payload }) => {
+        return this.postService
+          .createPost({
+            title: payload.title,
+            content: payload.content,
+            authorId: payload.authorId,
+          })
+          .pipe(map(() => postActions.fetchPosts()));
       }),
     );
   });

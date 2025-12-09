@@ -16,10 +16,10 @@ export const postFeature = createFeature({
   name: 'postFeature',
   reducer: createReducer(
     initialState,
-    on(postActions.postsLoaded, (state, { posts }) => {
+    on(postActions.postsLoaded, (state, payload) => {
       return {
         ...state,
-        posts,
+        posts: payload.posts,
       };
     }),
   ),
