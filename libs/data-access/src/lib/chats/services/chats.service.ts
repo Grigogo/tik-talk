@@ -1,21 +1,57 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IChat, ILastMessageResponse, IMessage } from '@tt/data-access';
+import {
+  AuthService,
+  IChat,
+  ILastMessageResponse,
+  IMessage,
+} from '@tt/data-access';
 import { ProfileService } from '@tt/data-access';
 import { map } from 'rxjs';
+import { ChatWsNativeService } from './chat-ws-native.service';
+import { IChatWsService } from '../interfaces/chat-ws-service.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatsService {
   http = inject(HttpClient);
+  #authService = inject(AuthService);
   me = inject(ProfileService).me;
+
+  wsAdapter: IChatWsService = new ChatWsNativeService();
 
   activeChatMessages = signal<IMessage[]>([]);
 
   baseApiUrl = 'https://icherniakov.ru/yt-course/';
   chatsUrl = `${this.baseApiUrl}chat/`;
   messageUrl = `${this.baseApiUrl}message/`;
+
+  connectWs() {
+    this.wsAdapter.connect({
+      url: `${this.baseApiUrl}chat/ws`,
+      token: this.#authService.token ?? '',
+      handleMessage: this.handleWSMessage,
+    });
+  }
+
+  handleWSMessage = (message: any) => {
+    console.log(message);
+    if (message.action === 'message') {
+      this.activeChatMessages.set([
+        ...this.activeChatMessages(),
+        {
+          id: message.data.id,
+          userFromId: message.data.author,
+          personalChatId: message.data.chat_id,
+          text: message.data.message,
+          createdAt: message.data.createdAt,
+          isRead: false,
+          isMine: false,
+        },
+      ]);
+    }
+  };
 
   createChat(userId: number) {
     return this.http.post<IChat>(`${this.chatsUrl}${userId}`, {});

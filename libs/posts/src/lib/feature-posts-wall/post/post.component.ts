@@ -38,7 +38,7 @@ export class PostComponent implements OnInit {
   // comments = this.store.selectSignal(selectCommentsByPostId(this.post()!.id));
 
   async ngOnInit() {
-    this.store.dispatch(postActions.fetchPosts());
+    // this.store.dispatch(postActions.fetchPosts());
   }
   onCreated(commentText: string) {
     if (!commentText) return;

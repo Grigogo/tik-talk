@@ -4,7 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { ImageUrlPipe, SvgIconComponent } from '@tt/common-ui';
-import { ProfileService } from '@tt/data-access';
+import { ChatsService, ProfileService } from '@tt/data-access';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,6 +22,7 @@ import { ProfileService } from '@tt/data-access';
 })
 export class SidebarComponent {
   profileService = inject(ProfileService);
+  #chatsService = inject(ChatsService);
 
   subscribers$ = this.profileService.getSubscribersShortList();
 
@@ -51,6 +52,7 @@ export class SidebarComponent {
   ];
 
   ngOnInit(): void {
+    this.#chatsService.connectWs();
     firstValueFrom(this.profileService.getMe());
   }
 }

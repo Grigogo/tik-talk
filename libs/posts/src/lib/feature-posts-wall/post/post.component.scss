@@ -39,9 +39,11 @@
 }
 
 .post__comments-wrapper {
-  padding: 8px 0;
+  padding: 8px 16px 8px 0;
   max-height: 150px;
   overflow-y: scroll;
   display: grid;
   grid-gap: 8px;
+  scrollbar-color: var(--primary-color) #161616;
+  scrollbar-width: thin;
 }
