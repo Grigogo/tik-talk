@@ -33,3 +33,9 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
+
+.profile-card__action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

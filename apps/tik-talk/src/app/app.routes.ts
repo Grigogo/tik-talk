@@ -37,6 +37,10 @@ export const routes: Routes = [
         path: 'chats-page',
         loadChildren: () => chatsRoutes,
       },
+      {
+        path: 'chats',
+        loadChildren: () => chatsRoutes,
+      },
       { path: 'forms', component: FormExperimentComponent },
     ],
     canActivate: [canActivateAuth],
