@@ -1,4 +1,4 @@
-<img src="/assets/svg/logo-small.svg" alt="tik-talk" class="ml16 mb20" />
+<img src="/assets/svg/logo-small.svg" alt="tik-talk" class="ml16 mb20"/>
 <nav>
   <ul class="main-menu-list">
     <!--    <li *ngFor="let menuItem of menuItems"> //версия 16 ангулара-->
@@ -11,6 +11,9 @@
         >
           <svg [icon]="menuItem.icon"></svg>
           <span>{{ menuItem.label }}</span>
+          @if (menuItem.link == 'chats-page' && unreadMessagesCount$() > 0) {
+            <span>{{ unreadMessagesCount$() }}</span>
+          }
         </a>
       }
     </li>

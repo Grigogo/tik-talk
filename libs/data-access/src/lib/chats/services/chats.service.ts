@@ -5,11 +5,19 @@ import {
   IChat,
   ILastMessageResponse,
   IMessage,
+  ITokenResponse,
 } from '@tt/data-access';
 import { ProfileService } from '@tt/data-access';
-import { map } from 'rxjs';
+import { map, Observable, subscribeOn } from 'rxjs';
 import { ChatWsNativeService } from './chat-ws-native.service';
 import { IChatWsService } from '../interfaces/chat-ws-service.interface';
+import { ChatWSMessage } from '../interfaces/chat-ws-message-base';
+import {
+  isErrorMessage,
+  isNewMessage,
+  isUnreadMessage,
+} from '../interfaces/type-guards';
+import { ChatWsRxjsService } from './chat-ws-rxjs.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +27,10 @@ export class ChatsService {
   #authService = inject(AuthService);
   me = inject(ProfileService).me;
 
-  wsAdapter: IChatWsService = new ChatWsNativeService();
+  // wsAdapter: IChatWsService = new ChatWsNativeService();
+  wsAdapter: IChatWsService = new ChatWsRxjsService();
+
+  unreadMessagesCount$ = signal(0);
 
   activeChatMessages = signal<IMessage[]>([]);
 
@@ -28,16 +39,27 @@ export class ChatsService {
   messageUrl = `${this.baseApiUrl}message/`;
 
   connectWs() {
-    this.wsAdapter.connect({
+    return this.wsAdapter.connect({
       url: `${this.baseApiUrl}chat/ws`,
       token: this.#authService.token ?? '',
       handleMessage: this.handleWSMessage,
-    });
+    }) as Observable<ChatWSMessage>;
   }
 
-  handleWSMessage = (message: any) => {
-    console.log(message);
-    if (message.action === 'message') {
+  handleWSMessage = (message: ChatWSMessage) => {
+    if (!('action' in message)) return;
+
+    if (isUnreadMessage(message)) {
+      this.unreadMessagesCount$.set(message.data.count);
+    }
+
+    if (isErrorMessage(message)) {
+      console.log('Invalid Token');
+      this.#refreshToken();
+      return;
+    }
+
+    if (isNewMessage(message)) {
       this.activeChatMessages.set([
         ...this.activeChatMessages(),
         {
@@ -52,6 +74,17 @@ export class ChatsService {
       ]);
     }
   };
+
+  #refreshToken() {
+    this.#authService
+      .refreshAuthToken()
+      .subscribe((tokenResponse: ITokenResponse) => {
+        console.log('Refresh token');
+
+        this.wsAdapter.disconnect();
+        this.connectWs().subscribe();
+      });
+  }
 
   createChat(userId: number) {
     return this.http.post<IChat>(`${this.chatsUrl}${userId}`, {});

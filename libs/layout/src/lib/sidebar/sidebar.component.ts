@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { ImageUrlPipe, SvgIconComponent } from '@tt/common-ui';
 import { ChatsService, ProfileService } from '@tt/data-access';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,6 +29,10 @@ export class SidebarComponent {
 
   me = this.profileService.me;
 
+  unreadMessagesCount$ = this.#chatsService.unreadMessagesCount$;
+
+  reconnect() {}
+
   menuItems = [
     {
       label: 'Моя страница',
@@ -50,9 +55,11 @@ export class SidebarComponent {
       link: 'forms',
     },
   ];
+  constructor() {
+    this.#chatsService.connectWs().pipe(takeUntilDestroyed()).subscribe();
+  }
 
   ngOnInit(): void {
-    this.#chatsService.connectWs();
     firstValueFrom(this.profileService.getMe());
   }
 }
